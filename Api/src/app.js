@@ -1,6 +1,18 @@
 import  express  from "express";
 // import sequelize from "../banco";
 import cors from "cors"
+import db from "./Database/db.server.js";
+import registro from "../src/models/Data.js";
+import routes from "./Routes/index.js"
+
+
+db.on("error",console.log.bind(console,'Erro de conexão'))
+db.once("open", ()=>{
+console.log('Conexão feita com o banco foi um sucesso')
+})
+
+
+
 
 const app=express();
 
@@ -8,34 +20,19 @@ const app=express();
 
 app.use(express.json())
 
+routes(app);
+
 app.use((req,res,next)=>{
     console.log('Acessou o Middleware')
     res.header("Access-Control-Allow-Origin",'*')
     app.use(cors());
     next();
 })
-let registro=[
-    {id:1,'Email':'ellen.samanta@outlook.com','senha':'5c4434344'},
-    {id:2,'Email':'ricardo.mendes@hotmail.com','senha':'XUMXUM3543'},
-    {id:3,'Email':'luana.Mauricelia@gmail.com','senha':'20214432'},
-    {id:4,'Email':'rihanna.mendes@hotmail.com','senha':'ZUMZUMLU233'},
-    {id:5,'Email':'caio.joão@outlook.com','senha':'PR23232!'},
-    {id:6,'Email':'gatinhaMirela@gmai.com','senha':'Err5654!'}
-]
-
-//como nao estou passando caminho de porta por padrão vai cair na 3000
-app.get('/',(req,res)=>{
-    res.status(200).send('Calendario de registro');
-//vai retornar nessa porta o envio do texto livraria
 
 
-})
-app.get('/registro',(req,res)=>{
-    res.status(200).json(registro)
-    //vai cair na porta um arquivo json com os objetos de avisos
-})
 
-app.get('./registro:id',(req,res)=>{
+ 
+app.get('/registro:id',(req,res)=>{
     let indice=BuscaLivros(req.params.id)
     res.json(registro[indice])
 })
@@ -48,7 +45,7 @@ app.post('/registro',(req,res)=>{
     //do corpo da requisição que é o req.body
 })
 
-app.put('./registro:id',(req,res)=>{
+app.put('/registro:id',(req,res)=>{
     let indice=BuscaLivros(req.params.id)
     registro[indice].titulo= req.body.titulo
     //no final ele pega o indice de titulo entra no objeto titulo e muda para qual o corpo da requisição está passando

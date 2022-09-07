@@ -31,12 +31,28 @@ export default function Menu() {
 
 
 
-function Busca(){
-  api.get('/registro').then(
-    response=>{
-      console.log(response.data)
-    }
-  )
+async function Busca(){
+  let response= await fetch('http:/192.168.0.107:8083/login', {
+
+    method:'POST',
+    headers:{
+      Accept:'application/json',
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify({
+      name:email, 
+      password:senha
+    })
+
+
+  })
+
+
+  // api.get('/registro').then(
+  //   response=>{
+  //     console.log(response.data)
+  //   }
+  // )
 }
 
 
