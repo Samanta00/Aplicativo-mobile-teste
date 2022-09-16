@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState,useEffect } from "react";
 import { StyleSheet,  Text,  TextInput,  View,  KeyboardAvoidingView,  TouchableOpacity, Animated,} from "react-native";
-import api from "../Server/Api";
+import api from "../../Server/Api";
+import { NavigationContainer } from '@react-navigation/native';
 
-export default function Menu() {
+export default function Login() {
   const [offset] = useState(new Animated.ValueXY({ x: 0, y: 95 }));
   const [opacity] = useState(new Animated.Value(0));
   const [display, setDisplay]=useState('none')
@@ -62,7 +63,7 @@ async function Busca(){
 
 
       <View style={styles.container}>
-        <Animated.Image source={require("../../assets/favicon.png")} />
+        <Animated.Image source={require("../../../assets/favicon.png")} />
       </View>
 
 
@@ -98,16 +99,19 @@ async function Busca(){
           onChangeText={password => setPassword(password)}
         />
 {/* ()=>setDisplay('flex') */}
-        <TouchableOpacity style={styles.btnAcessar} onPress={Busca}>
+
+        <TouchableOpacity style={styles.btnAcessar} onPress={()=>navigation.navigate("Menu")}>
+
           <Text style={styles.textAcessar}>Acessar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.btnRegistrar}
-          onPress={() => navigation.navigate("Cadastro")}
-        >
+
+        <TouchableOpacity style={styles.btnRegistrar} onPress={() => navigation.navigate("Cadastro")}>
+
           <Text style={styles.textRegistrar}>Cadastrar</Text>
+
         </TouchableOpacity>
+        
       </Animated.View>
     </KeyboardAvoidingView>
   );
